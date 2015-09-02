@@ -107,7 +107,7 @@
 				var newIndex = (direction === '<') ? base.index + 1 : base.index - 1,
 					origEv = (event.type === 'touchend' || event.type === 'touchcancel') ? event.originalEvent.changedTouches[0] : event.originalEvent;
 				var mouseX = origEv.pageX,
-					offset = newIndex * base.slideWidth;
+					offset = base.index * base.slideWidth;
 				diff = Math.round(mouseX - origMouseX);
 				base.$slider.unbind('touchmove', dragMove)
 							.unbind('mousemove', dragMove)
@@ -121,10 +121,10 @@
 					return;
 				}
 				if (diff > 140 || diff < -140) {
-					flex(newIndex)
-				} else {
-					base.$slider.attr('style', 'width: ' + (base.slideWidth * base.slideCount) + 'px; transform: translate3d(-' + offset + 'px, 0, 0)');
+					flex(newIndex);
+					return;
 				}
+				base.$slider.attr('style', 'width: ' + (base.slideWidth * base.slideCount) + 'px; transform: translate3d(-' + offset + 'px, 0, 0)');
 			}
 
 			base.$slider.bind('touchstart', dragStart);
