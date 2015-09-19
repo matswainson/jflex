@@ -47,6 +47,7 @@
 	float: left;
 	overflow: hidden;
 	position: relative;
+	width: 100%;
 }
 
 .slides img {

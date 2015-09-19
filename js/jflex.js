@@ -17,10 +17,27 @@
 		
 		base.options = $.extend({}, base.defaultOptions, options);
 
+		function supportsCSS(type) {
+			var prefixes = 'transform WebkitTransform MozTransform OTransform msTransform'.split(' ');
+			if (type === 'transition') {
+				prefixes = 'transition WebkitTransition MozTransition OTransition msTransition'.split(' ');
+			}
+			for (var i = 0; i < prefixes.length; i++) {
+				if (document.createElement('div').style[prefixes[i]] !== undefined) {
+					if (type === 'transform') {
+						return (prefixes[i] === 'transform') ? prefixes[i] : '-' + prefixes[i].replace('T','-t').toLowerCase();
+					} else if (type === 'transition') {
+						return (prefixes[i] === 'transition') ? prefixes[i] : '-' + prefixes[i].replace('T','-t').toLowerCase();
+					}
+				}
+			}
+			return false;
+		}
+
 		function flex(event, autoplay) {
 
 			var idx = (typeof event === 'number') ? event : $(this).index();
-			var transform = (!idx) ? '' : 'transform: translate3d(-' + (idx * base.slideWidth) + 'px, 0, 0); ';
+			var transform = (!idx) ? '' : base.transformString.replace('{{offset}}', (idx * base.slideWidth));
 			var width = 'width: ' + (base.slideCount * base.slideWidth) + 'px';
 
 			base.index = idx;
@@ -37,7 +54,7 @@
 					base.$slideTitles.find('li:eq(' + (base.slideCount - 1) + ')').attr('class', 'title--auto title--right');
 					base.$slideTitles.find('li:eq(' + idx + ')').attr('class', 'title--active title--auto');
 				} else {
-					base.$slideTitles.find('li:eq(' + (idx - 1) + ')').attr('class', (autoplay) ? 'title--right title--auto' : 'title--right');
+					base.$slideTitles.find('li:eq(' + (idx - 1) + ')').attr('class', (autoplay) ? 'title--right title--auto' : 'title--right').find('.title--l')
 					base.$slideTitles.find('li:eq(' + idx + ')').attr('class', (autoplay) ? 'title--active title--auto' : 'title--active');
 				}
 			} else {
@@ -95,12 +112,12 @@
 				var mouseX = origEv.pageX;
 				diff = Math.round(mouseX - origMouseX);
 				direction = (diff < 0) ? '<' : '>';
-				var offset =  (base.index * -base.slideWidth) + diff;
+				var offset =  Math.abs((base.index * base.slideWidth) + diff);
 				if (direction === '>' && base.index === 0 ||
 					direction === '<' && base.index === (base.slideCount - 1)) {
 					return;
 				}
-				base.$slider.attr('style', 'width: ' + (base.slideWidth * base.slideCount) + 'px; transform: translate3d(' + offset + 'px, 0, 0)');
+				base.$slider.attr('style', base.transformString.replace('{{offset}}', offset) + 'width: ' + (base.slideWidth * base.slideCount) + 'px;');
 			}
 
 			function dragOff(event) {
@@ -124,7 +141,7 @@
 					flex(newIndex);
 					return;
 				}
-				base.$slider.attr('style', 'width: ' + (base.slideWidth * base.slideCount) + 'px; transform: translate3d(-' + offset + 'px, 0, 0)');
+				base.$slider.attr('style', base.transformString.replace('{{offset}}', offset) + 'width: ' + (base.slideWidth * base.slideCount) + 'px;');
 			}
 
 			base.$slider.bind('touchstart', dragStart);
@@ -139,10 +156,30 @@
 			base.slideCount = base.$slides.length;
 			base.slideWidth = base.$el.width();
 
+			var cssTransforms = supportsCSS('transform');
+			if (cssTransforms) {
+				base.transformString = cssTransforms + ': translate3d(-{{offset}}px, 0, 0); ';
+			} else {
+				base.transformString = 'left: -{{offset}}px; ';
+			}
+
 			base.$slides.width(base.slideWidth + 'px');
 			base.$el.children().width(base.slideCount * base.slideWidth + 'px');
 
 			base.$slideTitles = $('<ul class="slides--titles"></ul>');
+		}
+
+		function setTitleAnimationTiming() {
+			var cssTransitions = supportsCSS('transition');
+			if (!cssTransitions) {
+				return;
+			}
+			var seconds = base.options.timing / 1000,
+				style = document.createElement('style');
+			var css = '.slides--titles li.title--auto.title--active .title--l { ' + cssTransitions + ': all linear ' + seconds + 's; }';
+			style.type = 'text/css';
+			style.appendChild(document.createTextNode(css));
+			$('body').append(style);
 		}
 
 		function flexAnimated(){
@@ -178,6 +215,9 @@
 				base.$slides.length === 4 ||
 				base.$slides.length === 5) {
 				length = base.$slides.length;
+			}
+			if (base.options.autoplay && base.options.timing !== '5000') {
+				setTitleAnimationTiming();
 			}
 		}
 
