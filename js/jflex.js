@@ -112,7 +112,7 @@
 				var mouseX = origEv.pageX;
 				diff = Math.round(mouseX - origMouseX);
 				direction = (diff < 0) ? '<' : '>';
-				var offset =  Math.abs((base.index * base.slideWidth) + diff);
+				var offset =  Math.abs((base.index * base.slideWidth) - diff);
 				if (direction === '>' && base.index === 0 ||
 					direction === '<' && base.index === (base.slideCount - 1)) {
 					return;
