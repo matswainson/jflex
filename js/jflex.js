@@ -219,6 +219,7 @@
 			if (base.options.autoplay && base.options.timing !== '5000') {
 				setTitleAnimationTiming();
 			}
+			base.$el.addClass('jflex--' + base.slideCount);
 		}
 
 		base.init = function(){
