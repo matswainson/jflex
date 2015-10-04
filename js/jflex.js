@@ -9,8 +9,10 @@
 		base.$el = $(el);
 		base.index = 0;
 		base.defaultOptions = {
+			arrows: false,
 			autoplay: false,
 			fx: 'slide',
+			swipeable: true,
 			timing: 5000,
 			titles: 'top'
 		};
@@ -43,6 +45,7 @@
 			base.index = idx;
 			base.$slider.attr('style', transform + width);
 
+
 			if (typeof event !== 'number' && base.autoMode) {
 				clearInterval(base.autoMode);
 			}
@@ -54,7 +57,7 @@
 					base.$slideTitles.find('li:eq(' + (base.slideCount - 1) + ')').attr('class', 'title--auto title--right');
 					base.$slideTitles.find('li:eq(' + idx + ')').attr('class', 'title--active title--auto');
 				} else {
-					base.$slideTitles.find('li:eq(' + (idx - 1) + ')').attr('class', (autoplay) ? 'title--right title--auto' : 'title--right').find('.title--l')
+					base.$slideTitles.find('li:eq(' + (idx - 1) + ')').attr('class', (autoplay) ? 'title--right title--auto' : 'title--right').find('.title--l');
 					base.$slideTitles.find('li:eq(' + idx + ')').attr('class', (autoplay) ? 'title--active title--auto' : 'title--active');
 				}
 			} else {
@@ -83,6 +86,27 @@
 			base.$slideTitles.children().bind('click', flex);
 			base.$slides.find('img').bind('dragstart', function(event) { event.preventDefault(); });
 			$(window).bind('resize orientationchange', flexSize);
+		}
+
+		function bindArrows(){
+			var arrowHTML = '<div class="jflex-arrow jflex-arrow--left"></div>';
+			arrowHTML += '<div class="jflex-arrow jflex-arrow--right"></div>';
+			$('.jflex--wrapper').append(arrowHTML);
+
+			function tapArrow() {
+				var direction = $(this).hasClass('jflex-arrow--left') ? 'left' : 'right';
+				if (base.autoMode) {
+					clearInterval(base.autoMode);
+				}
+				if (base.index === 0 && direction === 'left' ||
+					base.index === base.slideCount - 1 && direction === 'right') {
+					return;
+				}
+				var newIndex = direction === 'left' ? base.index - 1 : base.index + 1;
+				flex(newIndex);
+			}
+
+			$('.jflex-arrow').bind('click', tapArrow);
 		}
 
 		function bindTouch(){
@@ -195,6 +219,7 @@
 
 		function flexTitles(){
 			var titleLi;
+			base.$slider.wrap('<div class="jflex--wrapper"></div>');
 			if (base.options.titles === 'bottom') {
 				base.$el.append(base.$slideTitles);
 				titleLi = '<li data-title="{{i}}"><span class="title--l"></span><span class="title--t">{{title}}</span></li>';
@@ -208,18 +233,11 @@
 				titles += titleLi.replace('{{i}}', i).replace('{{title}}', sTitle);
 			}
 			base.$slideTitles.append(titles);
-			var height = base.$slideTitles.height(),
-				length = '6';
-			if (base.$slides.length === 2 ||
-				base.$slides.length === 3 ||
-				base.$slides.length === 4 ||
-				base.$slides.length === 5) {
-				length = base.$slides.length;
-			}
 			if (base.options.autoplay && base.options.timing !== '5000') {
 				setTitleAnimationTiming();
 			}
-			base.$el.addClass('jflex--' + base.slideCount);
+			base.$el.addClass('jflex--' + base.$slides.length);
+			base.$slideTitles.height();
 		}
 
 		base.init = function(){
@@ -236,6 +254,9 @@
 
 			if (typeof base.options.fx === 'string' && base.options.fx === 'slide') {
 				flexAnimated();
+			}
+
+			if (base.options.swipeable) {
 				bindTouch();
 			}
 
@@ -243,6 +264,10 @@
 				playBall();
 			} else {
 				selectFirstTitle();
+			}
+
+			if (base.options.arrows) {
+				bindArrows();
 			}
 
 		};

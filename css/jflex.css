@@ -1,6 +1,11 @@
 .jFlex {
 	overflow: hidden;
 	position: relative;
+	-moz-transform: translate3d(0,0,0);
+	-ms-transform: translate3d(0,0,0);
+	-o-transform: translate3d(0,0,0);
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -9,11 +14,19 @@
 	user-select: none;
 }
 
+.jflex--wrapper {
+	position: relative;
+}
+
 .slides {
+	-webkit-backface-visibility: hidden;
 	list-style: none;
 	margin: 0;
 	padding: 0;
+	-webkit-perspective: 1000;
 	position: relative;
+	-webkit-transform-style: preserve-3d;
+	z-index: 1;
 }
 
 .slides--anim {
@@ -43,9 +56,11 @@
 }
 
 .slides li {
+	-webkit-backface-visibility: hidden;
 	display: block;
 	float: left;
 	overflow: hidden;
+	-webkit-perspective: 1000;
 	position: relative;
 	width: 100%;
 }
@@ -91,6 +106,22 @@
 	width: 16.6666667%;
 }
 
+.jflex--7 li {
+	width: 14.285714286%;
+}
+
+.jflex--8 li {
+	width: 12.5%;
+}
+
+.jflex--9 li {
+	width: 11.11111%;
+}
+
+.jflex--10 li {
+	width: 10%;
+}
+
 .slides--titles li .title--l {
 	background: #555;
 	display: block;
@@ -110,7 +141,7 @@
 	white-space: nowrap;
 }
 
-.slides--titles li.title--manual .title--l {
+.slides--titles .title--manual .title--l {
 	-moz-transition: all linear .3s;
 	-ms-transition: all linear .3s;
 	-o-transition: all linear .3s;
@@ -118,7 +149,7 @@
 	transition: all linear .3s;
 }
 
-.slides--titles li.title--auto .title--l {
+.slides--titles .title--auto .title--l {
 	-moz-transition: all linear .3s;
 	-ms-transition: all linear .3s;
 	-o-transition: all linear .3s;
@@ -126,7 +157,7 @@
 	transition: all linear .3s;
 }
 
-.slides--titles li.title--auto.title--active .title--l {
+.slides--titles .title--auto.title--active .title--l {
 	-moz-transition: all linear 5s;
 	-ms-transition: all linear 5s;
 	-o-transition: all linear 5s;
@@ -134,18 +165,109 @@
 	transition: all linear 5s;
 }
 
-.slides--titles li.title--active .title--l {
+.slides--titles .title--active .title--l {
 	left: 0;
 }
 
-.slides--titles li.title--right .title--l {
+.slides--titles .title--right .title--l {
 	left: 100%;
 }
 
-.slides--titles li.title--active .title--t {
+.slides--titles .title--active .title--t {
 	font-weight: bold;
 }
 
-.slides--titles li.title--active {
+.slides--titles .title--active {
 	background: #ddd;
+}
+
+.jflex-arrow {
+	background: black;
+	color: white;
+	cursor: pointer;
+	height: 54px;
+	left: 0;
+	margin-top: -27px;
+	opacity: .6;
+	position: absolute;
+	top: 50%;
+	-moz-transition: opacity ease-out .2s;
+	-ms-transition: opacity ease-out .2s;
+	-o-transition: opacity ease-out .2s;
+	-webkit-transition: opacity ease-out .2s;
+	transition: opacity ease-out .2s;
+	width: 44px;
+	z-index: 4;
+}
+
+.jflex-arrow:hover {
+	opacity: .8;
+}
+
+.jflex-arrow--left {
+	border-bottom-right-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.jflex-arrow--right {
+	border-bottom-left-radius: 3px;
+	border-top-left-radius: 3px;
+	left: auto;
+	right: 0;
+}
+
+.jflex-arrow:before {
+	border: solid transparent;
+	border-width: 14px;
+	content: ' ';
+	height: 0;
+	left: auto;
+	margin-top: -14px;
+	right: 16px;
+	position: absolute;
+	pointer-events: none;
+	top: 50%;
+	-moz-transition: opacity ease-out .2s;
+	-ms-transition: opacity ease-out .2s;
+	-o-transition: opacity ease-out .2s;
+	-webkit-transition: opacity ease-out .2s;
+	transition: opacity ease-out .2s;
+	width: 0;
+}
+
+.jflex-arrow:after {
+	border: solid transparent;
+	border-width: 10px;
+	content: ' ';
+	height: 0;
+	left: auto;
+	margin-top: -10px;
+	right: 15px;
+	position: absolute;
+	pointer-events: none;
+	top: 50%;
+	-moz-transition: opacity ease-out .2s;
+	-ms-transition: opacity ease-out .2s;
+	-o-transition: opacity ease-out .2s;
+	-webkit-transition: opacity ease-out .2s;
+	transition: opacity ease-out .2s;
+	width: 0;
+}
+
+.jflex-arrow--left:before {
+	border-right-color: #fff;
+}
+
+.jflex-arrow--left:after {
+	border-right-color: #000;
+}
+
+.jflex-arrow--right:before {
+	border-left-color: #fff;
+	left: 16px;
+}
+
+.jflex-arrow--right:after {
+	border-left-color: #000;
+	left: 16px;
 }
