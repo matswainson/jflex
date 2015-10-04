@@ -16,8 +16,8 @@ Demo: [matswainson.github.io/jflex/](http://matswainson.github.io/jflex/)
 
 ### Options
 
-* __arrows__ _true, false_
 * __autoplay__ _true, false_
+* __showArrows__ _true, false_
 * __swipeable__ _true, false_
 * __titles__ _bottom, top_
 * __timing (ms)__ _number (5000)_
@@ -33,8 +33,8 @@ Demo: [matswainson.github.io/jflex/](http://matswainson.github.io/jflex/)
 &lsaquo;/div&rsaquo;</pre>
 
 <pre>$('.flex').jFlex({
-	arrows: true,
 	autoplay: true,
+	showArrows: true,
 	timing: 5000,
 	titles: 'bottom'
 });</pre>

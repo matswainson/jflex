@@ -9,9 +9,9 @@
 		base.$el = $(el);
 		base.index = 0;
 		base.defaultOptions = {
-			arrows: false,
 			autoplay: false,
 			fx: 'slide',
+			showArrows: false,
 			swipeable: true,
 			timing: 5000,
 			titles: 'top'
@@ -266,7 +266,7 @@
 				selectFirstTitle();
 			}
 
-			if (base.options.arrows) {
+			if (base.options.showArrows) {
 				bindArrows();
 			}
 
