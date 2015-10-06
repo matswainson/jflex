@@ -10,6 +10,7 @@
 		base.index = 0;
 		base.defaultOptions = {
 			autoplay: false,
+			customClass: '',
 			fx: 'slide',
 			highlightColor: '#555',
 			showArrows: false,
@@ -231,9 +232,10 @@
 
 		function flexGlobals(){
 			var baseClasses = 'flex jFlex ',
+				customClass = base.options.customClass ? base.options.customClass + ' ' : '',
 				sizeHtml = 'jflex--' + base.$slides.length.toString(),
 				themeHtml = base.options.theme === 'dark' ? ' jflex--dark': '';
-			baseClasses += sizeHtml + themeHtml;
+			baseClasses += customClass + sizeHtml + themeHtml;
 			base.$el.attr('class', baseClasses);
 		}
 

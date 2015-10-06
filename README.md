@@ -17,6 +17,7 @@ Demo: [matswainson.github.io/jflex/](http://matswainson.github.io/jflex/)
 ### Options
 
 * __autoplay__ _true, false_
+* __customClass__ _add a custom class to the parent div element_
 * __highlightColor__ _default: #555_
 * __showArrows__ _true, false_
 * __swipeable__ _true, false_
