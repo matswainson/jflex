@@ -2,6 +2,7 @@
 ![jFlex](http://matswainson.com/github/jflex.png)
 ### Touch-device friendly jQuery carousel plugin.
 
+Size: 9kb / 6kb minified
 Demo: [matswainson.github.io/jflex/](http://matswainson.github.io/jflex/)
 
 ### Supports:
@@ -37,7 +38,10 @@ Demo: [matswainson.github.io/jflex/](http://matswainson.github.io/jflex/)
 
 <pre>$('.flex').jFlex({
 	autoplay: true,
+	customClass: 'customClass',
+	highlightColor: '#3b808d',
 	showArrows: true,
+	theme: 'dark',
 	timing: 5000,
 	titles: 'bottom'
 });</pre>
