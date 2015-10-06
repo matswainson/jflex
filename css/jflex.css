@@ -129,8 +129,19 @@
 	background: #555;
 	display: block;
 	height: 4px;
-	left: -100%;
 	position: relative;
+}
+
+.slides--anim-js li .title--l {
+	left: -100%;
+}
+
+.slides--anim-css li .title--l {
+	-moz-transform: translate3d(-100%,0,0);
+	-ms-transform: translate3d(-100%,0,0);
+	-o-transform: translate3d(-100%,0,0);
+	-webkit-transform: translate3d(-100%,0,0);
+	transform: translate3d(-100%,0,0);
 }
 
 .slides--titles li .title--t {
@@ -168,12 +179,28 @@
 	transition: all linear 5s;
 }
 
-.slides--titles .title--active .title--l {
+.slides--anim-js .title--active .title--l {
 	left: 0;
 }
 
-.slides--titles .title--right .title--l {
+.slides--anim-css .title--active .title--l {
+	-moz-transform: translate3d(0,0,0);
+	-ms-transform: translate3d(0,0,0);
+	-o-transform: translate3d(0,0,0);
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+
+.slides--anim-js .title--right .title--l {
 	left: 100%;
+}
+
+.slides--anim-css .title--right .title--l {
+	-moz-transform: translate3d(100%,0,0);
+	-ms-transform: translate3d(100%,0,0);
+	-o-transform: translate3d(100%,0,0);
+	-webkit-transform: translate3d(100%,0,0);
+	transform: translate3d(100%,0,0);
 }
 
 .slides--titles .title--active .title--t {

@@ -190,7 +190,8 @@
 			base.$slides.width(base.slideWidth + 'px');
 			base.$el.children().width(base.slideCount * base.slideWidth + 'px');
 
-			base.$slideTitles = $('<ul class="slides--titles"></ul>');
+			var animStyle = cssTransforms ? 'slides--anim-css' : 'slides--anim-js';
+			base.$slideTitles = $('<ul class="slides--titles ' + animStyle + '"></ul>');
 		}
 
 		function setTitleAnimationTiming() {
