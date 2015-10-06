@@ -17,8 +17,10 @@ Demo: [matswainson.github.io/jflex/](http://matswainson.github.io/jflex/)
 ### Options
 
 * __autoplay__ _true, false_
+* __highlightColor__ _default: #555_
 * __showArrows__ _true, false_
 * __swipeable__ _true, false_
+* __theme__ _light, dark_
 * __titles__ _bottom, top_
 * __timing (ms)__ _number (5000)_
 

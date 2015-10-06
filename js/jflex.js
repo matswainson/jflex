@@ -11,8 +11,10 @@
 		base.defaultOptions = {
 			autoplay: false,
 			fx: 'slide',
+			highlightColor: '#555',
 			showArrows: false,
 			swipeable: true,
+			theme: 'light',
 			timing: 5000,
 			titles: 'top'
 		};
@@ -199,9 +201,12 @@
 			if (!cssTransitions) {
 				return;
 			}
-			var seconds = base.options.timing / 1000,
+			var highlightColor = (base.options.theme === 'dark' && base.options.highlightColor === '#555') ? '#fff' : base.options.highlightColor,
+				seconds = base.options.timing / 1000,
 				style = document.createElement('style');
 			var css = '.slides--titles li.title--auto.title--active .title--l { ' + cssTransitions + ': all linear ' + seconds + 's; }';
+				css+= '.slides--titles li .title--l {background: ' + highlightColor +';}';
+				css+= '.slides--titles .title--active .title--t, .jflex--dark .slides--titles .title--active .title--t {color: ' + highlightColor + ';}';
 			style.type = 'text/css';
 			style.appendChild(document.createTextNode(css));
 			$('body').append(style);
@@ -237,7 +242,8 @@
 			if (base.options.autoplay && base.options.timing !== '5000') {
 				setTitleAnimationTiming();
 			}
-			base.$el.addClass('jflex--' + base.$slides.length);
+			var themeHtml = base.options.theme === 'dark' ? 'jflex--dark ': '';
+			base.$el.addClass(themeHtml + 'jflex--' + base.$slides.length.toString());
 			base.$slideTitles.height();
 		}
 
