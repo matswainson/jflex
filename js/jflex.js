@@ -66,6 +66,9 @@
 				base.$slideTitles.find('li:eq(' + idx + ')').attr('class', 'title--active');
 			}
 
+			base.$arrows.left.toggleClass('jflex--hidden', base.index === 0);
+			base.$arrows.right.toggleClass('jflex--hidden', base.index === base.slideCount - 1);
+
 			// trigger css repaint / reflow
 			base.$el.offset().height;
 
@@ -91,7 +94,7 @@
 		}
 
 		function bindArrows(){
-			var arrowHTML = '<div class="jflex-arrow jflex-arrow--left"></div>';
+			var arrowHTML = '<div class="jflex-arrow jflex-arrow--left jflex--hidden"></div>';
 			arrowHTML += '<div class="jflex-arrow jflex-arrow--right"></div>';
 			$('.jflex--wrapper').append(arrowHTML);
 
@@ -107,8 +110,11 @@
 				var newIndex = direction === 'left' ? base.index - 1 : base.index + 1;
 				flex(newIndex);
 			}
-
 			$('.jflex-arrow').bind('click', tapArrow);
+			base.$arrows = {
+				left: $('.jflex-arrow--left'),
+				right: $('.jflex-arrow--right')
+			};
 		}
 
 		function bindTouch(){
@@ -223,6 +229,14 @@
 			base.$slides.width(base.slideWidth + 'px');
 		}
 
+		function flexGlobals(){
+			var baseClasses = 'flex jFlex ',
+				sizeHtml = 'jflex--' + base.$slides.length.toString(),
+				themeHtml = base.options.theme === 'dark' ? ' jflex--dark': '';
+			baseClasses += sizeHtml + themeHtml;
+			base.$el.attr('class', baseClasses);
+		}
+
 		function flexTitles(){
 			var titleLi;
 			base.$slider.wrap('<div class="jflex--wrapper"></div>');
@@ -242,8 +256,6 @@
 			if (base.options.autoplay && base.options.timing !== '5000') {
 				setTitleAnimationTiming();
 			}
-			var themeHtml = base.options.theme === 'dark' ? 'jflex--dark ': '';
-			base.$el.addClass(themeHtml + 'jflex--' + base.$slides.length.toString());
 			base.$slideTitles.height();
 		}
 
@@ -256,6 +268,7 @@
 				return;
 			}
 
+			flexGlobals();
 			flexTitles();
 			bindFlex();
 
@@ -267,14 +280,14 @@
 				bindTouch();
 			}
 
+			if (base.options.showArrows) {
+				bindArrows();
+			}
+
 			if (base.options.autoplay) {
 				playBall();
 			} else {
 				selectFirstTitle();
-			}
-
-			if (base.options.showArrows) {
-				bindArrows();
 			}
 
 		};

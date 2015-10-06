@@ -345,3 +345,10 @@
 	border-left-color: #000;
 	left: 16px;
 }
+
+.jflex--hidden,
+.jflex--hidden:hover,
+.jflex--dark .jflex--hidden,
+.jflex--dark .jflex--hidden:hover {
+	opacity: 0;
+}
