@@ -8,6 +8,7 @@
 		base.el = el;
 		base.$el = $(el);
 		base.index = 0;
+		base.hasTitles = true;
 		base.defaultOptions = {
 			autoplay: false,
 			customClass: '',
@@ -186,6 +187,11 @@
 			base.$el.addClass('jFlex');
 			base.$slider = base.$el.children();
 			base.$slides = base.$slider.children();
+
+			$.each(base.$slides, function(){
+				if (!$(this).attr('data-title')) { base.hasTitles = false; }
+			});
+
 			base.slideCount = base.$slides.length;
 			base.slideWidth = base.$el.width();
 
@@ -234,8 +240,9 @@
 			var baseClasses = 'flex jFlex ',
 				customClass = base.options.customClass ? base.options.customClass + ' ' : '',
 				sizeHtml = 'jflex--' + base.$slides.length.toString(),
-				themeHtml = base.options.theme === 'dark' ? ' jflex--dark': '';
-			baseClasses += customClass + sizeHtml + themeHtml;
+				themeHtml = base.options.theme === 'dark' ? ' jflex--dark': '',
+				titlesHtml = base.hasTitles ? '' : ' jflex--nt';
+			baseClasses += customClass + sizeHtml + themeHtml + titlesHtml;
 			base.$el.attr('class', baseClasses);
 		}
 

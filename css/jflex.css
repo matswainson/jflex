@@ -77,6 +77,7 @@
 .slides--titles li {
 	background: #eee;
 	cursor: pointer;
+	display: block;
 	float: left;
 	overflow: hidden;
 	position: relative;
@@ -157,6 +158,11 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+.jflex--nt .slides--titles li .title--t,
+.jflex--nt .slides--titles li .title--t {
+	display: none;
 }
 
 .jflex--dark .slides--titles li .title--t {
