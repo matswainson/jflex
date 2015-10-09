@@ -82,6 +82,8 @@
 	overflow: hidden;
 	position: relative;
 	text-align: center;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
 	-moz-transition: background linear .3s;
 	-ms-transition: background linear .3s;
 	-o-transition: background linear .3s;
@@ -94,39 +96,39 @@
 	background: #222;
 }
 
-.jflex--2 li {
+.jflex--2 .slides--titles li {
 	width: 50%;
 }
 
-.jflex--3 li {
+.jflex--3 .slides--titles li {
 	width: 33.3333333%;
 }
 
-.jflex--4 li {
+.jflex--4 .slides--titles li {
 	width: 25%;
 }
 
-.jflex--5 li {
+.jflex--5 .slides--titles li {
 	width: 20%;
 }
 
-.jflex--6 li {
+.jflex--6 .slides--titles li {
 	width: 16.6666667%;
 }
 
-.jflex--7 li {
+.jflex--7 .slides--titles li {
 	width: 14.285714286%;
 }
 
-.jflex--8 li {
+.jflex--8 .slides--titles li {
 	width: 12.5%;
 }
 
-.jflex--9 li {
+.jflex--9 .slides--titles li {
 	width: 11.11111%;
 }
 
-.jflex--10 li {
+.jflex--10 .slides--titles li {
 	width: 10%;
 }
 
@@ -244,6 +246,8 @@
 	opacity: .2;
 	position: absolute;
 	top: 50%;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
 	-moz-transition: opacity ease-out .2s;
 	-ms-transition: opacity ease-out .2s;
 	-o-transition: opacity ease-out .2s;

@@ -52,6 +52,7 @@
 
 			if (typeof event !== 'number' && base.autoMode) {
 				clearInterval(base.autoMode);
+				event.stopPropagation();
 			}
 			
 			base.$slideTitles.find('li').attr('class', '');
@@ -89,7 +90,49 @@
 			base.$slideTitles.children().first().attr('class', 'title--active');
 		}
 
+		var tapDown = {};
+
+		function tapTitleStart(event){
+			var touches = event.originalEvent.changedTouches;
+			if (touches.length > 1) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+			var date = new Date();
+			tapDown.time = date.getTime();
+			tapDown.x = touches[0].pageX;
+			tapDown.y = touches[0].pageY;
+		}
+
+		function tapTitleEnd(event){
+			var touches = event.originalEvent.changedTouches;
+			if (touches.length > 1) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+			var date = new Date();
+			var tapUp = {
+				time: date.getTime(),
+				x: touches[0].pageX,
+				y: touches[0].pageY
+			};
+			if (tapDown.x) {
+				var diffX = tapUp.x - tapDown .x,
+					diffY = tapUp.y - tapDown .y,
+					timeDiff = tapUp.time - tapDown.time;
+				if (timeDiff < 300 && diffX < 12 && diffY < 12) {
+					event.preventDefault();
+					event.stopPropagation();
+					var event = document.createEvent('Event');
+					event.initEvent('click', true, true);
+					this.dispatchEvent(event);
+				}
+			}
+		}
+
 		function bindFlex(){
+			base.$slideTitles.children().bind('touchstart', tapTitleStart);
+			base.$slideTitles.children().bind('touchend', tapTitleEnd);
 			base.$slideTitles.children().bind('click', flex);
 			base.$slides.find('img').bind('dragstart', function(event) { event.preventDefault(); });
 			$(window).bind('resize orientationchange', flexSize);
@@ -100,7 +143,8 @@
 			arrowHTML += '<div class="jflex-arrow jflex-arrow--right"></div>';
 			$('.jflex--wrapper').append(arrowHTML);
 
-			function tapArrow() {
+			function tapArrow(event) {
+				event.stopPropagation();
 				var direction = $(this).hasClass('jflex-arrow--left') ? 'left' : 'right';
 				if (base.autoMode) {
 					clearInterval(base.autoMode);
@@ -112,10 +156,13 @@
 				var newIndex = direction === 'left' ? base.index - 1 : base.index + 1;
 				flex(newIndex);
 			}
-			$('.jflex-arrow').bind('click', tapArrow);
+			var $arrows = $('.jflex-arrow');
+			$arrows.bind('touchstart', tapTitleStart);
+			$arrows.bind('touchend', tapTitleEnd);
+			$arrows.bind('click', tapArrow);
 			base.$arrows = {
-				left: $('.jflex-arrow--left'),
-				right: $('.jflex-arrow--right')
+				left: $arrows.eq(0),
+				right: $arrows.eq(1)
 			};
 		}
 
